@@ -15,7 +15,7 @@ namespace Projeto.Data
 
         Ongs GetById(int id);
 
-        Incident[] GetAllIncidents();
+        List<Incident> GetAllIncidents();
         
         Incident GetByIdIncident(int id);
         

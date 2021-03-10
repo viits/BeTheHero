@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Projeto.Models;
@@ -10,6 +11,7 @@ namespace Projeto.Data
         public Repository(DataContext context)
         {
             _context = context;
+            _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
         public void Add<T>(T entity) where T : class
         {
@@ -21,10 +23,14 @@ namespace Projeto.Data
             _context.Remove(entity);
         }
 
-        public Incident[] GetAllIncidents()
+        public List<Incident> GetAllIncidents()
         {
-            IQueryable<Incident> query = _context.Incidents;
-            return query.ToArray();
+            
+               
+                var dbQuery = _context.Incidents.Include(x => x.Ongs);
+                var list = dbQuery.AsNoTracking().ToList();
+           
+                return list;
         }
 
         public Ongs[] GetAllOngs()
@@ -40,7 +46,7 @@ namespace Projeto.Data
             (query = query.AsNoTracking()
                 .Where(ong => ong.Id == id))
                 .FirstOrDefault();
-            return query.FirstOrDefault();    
+            return query.FirstOrDefault();
         }
 
         public Incident GetByIdIncident(int id)

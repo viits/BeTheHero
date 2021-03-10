@@ -32,8 +32,7 @@ namespace Projeto.Migrations
                     Title = table.Column<string>(type: "TEXT", nullable: true),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     Value = table.Column<double>(type: "REAL", nullable: false),
-                    OngId = table.Column<int>(type: "INTEGER", nullable: false),
-                    OngsId = table.Column<int>(type: "INTEGER", nullable: true)
+                    OngsId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -43,7 +42,7 @@ namespace Projeto.Migrations
                         column: x => x.OngsId,
                         principalTable: "Ongs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
